@@ -5,11 +5,25 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch('https://exp-log-api.onrender.com/api/user')
+    if (!user) return;
+  
+    const interval = setInterval(() => {
+      fetch('https://exp-log-api.onrender.com/api/user/exp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ addExp: 10 }) // 每 10 秒加 10 EXP
+      })
+      .then(() => {
+        // 更新使用者資料
+        return fetch('https://exp-log-api.onrender.com/api/user');
+      })
       .then(res => res.json())
       .then(data => setUser(data))
-      .catch(err => console.error("資料獲取失敗", err));
-  }, []);
+      .catch(err => console.error("自動累積失敗", err));
+    }, 10000); // 每 10 秒觸發一次
+  
+    return () => clearInterval(interval); // 離開畫面清除
+  }, [user]);
 
   if (!user) {
     return (
