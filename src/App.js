@@ -5,8 +5,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // 模擬 API 呼叫
-    fetch('https://yourdomain.com/api/user')
+    fetch('https://exp-log-api.onrender.com/api/user')
       .then(res => res.json())
       .then(data => setUser(data))
       .catch(err => console.error("資料獲取失敗", err));
