@@ -6,7 +6,9 @@ function Login({ onLogin }) {
   const handleLogin = async () => {
     const res = await fetch('https://exp-log-api.onrender.com/api/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify(form)
     });
 
